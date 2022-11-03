@@ -5,9 +5,12 @@ import TodoListItem from './TodoListItem';
 const TodoList = ( props ) => {
 
     const elements = props.todos.map((todo) => {
+
+        const { id, ...itemProps } = todo;
+
         return (
-            <li>
-                <TodoListItem { ...todo } />
+            <li key={id}>
+                <TodoListItem { ...itemProps } />
             </li>
         );
     });
