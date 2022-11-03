@@ -1,6 +1,18 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client'
+import { createRoot } from 'react-dom/client';
 
-const elem = <h1>Hello React</h1>
+import AppHeader from './components/AppHeader';
+import SearchPanel from './components/SearchPanel';
+import TodoList from './components/TodoList';
 
-createRoot(document.querySelector('#root')).render(elem);
+const App = () => {
+    return (
+        <div>
+            <AppHeader />
+            <SearchPanel />
+            <TodoList />
+        </div>
+    );
+};
+
+createRoot(document.querySelector('#root')).render(<App />);
