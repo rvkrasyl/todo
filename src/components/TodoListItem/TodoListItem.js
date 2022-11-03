@@ -18,13 +18,13 @@ const TodoListItem = ( props ) => {
             </span>
 
             <button type="button"
-                    className="btn btn-putline-success btn-sm float-right">
+                    className="btn btn-putline-success btn-sm">
                 <i className="fa fa-exclamation"/>
             </button>
 
 
             <button type="button"
-                    className="btn btn-putline-success btn-sm float-right">
+                    className="btn btn-putline-success btn-sm">
                 <i className="fa fa-trash-o"/>
             </button>
         </span>

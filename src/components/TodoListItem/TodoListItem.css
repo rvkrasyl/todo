@@ -22,3 +22,8 @@
     font-weight: bold;
     color: steelblue;
 }
+
+.btn-sm {
+    border: 1px solid;
+    float: right;
+}
