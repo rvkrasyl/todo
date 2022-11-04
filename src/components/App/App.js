@@ -44,7 +44,6 @@ export default class App extends Component {
 
     addItem = (label) => {
         const newTask = this.createTodoItem(label);
-        console.log(newTask);
         this.setState( (state) => {
             const newTodoArray = [
                 ...state.todoData, 
