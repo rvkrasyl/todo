@@ -16,7 +16,7 @@ export default class App extends Component {
             this.createTodoItem('Have lunch', 3),
         ],
         term: '',
-        filter: 'all' // all active done
+        filter: 'all',
     };
 
     createTodoItem(label, id) {
@@ -120,8 +120,7 @@ export default class App extends Component {
         const { todoData, term, filter } = this.state;
         const doneCount = todoData.filter((el) => el.done).length;
         const todoCount = todoData.length - doneCount;
-        let visibleItems = this.searchTasks(todoData, term);
-        visibleItems = this.filterTasks(visibleItems, filter);
+        const visibleItems = this.filterTasks(this.searchTasks(todoData, term), filter);
         
         return (
             <div className='todo-app'>
@@ -129,7 +128,8 @@ export default class App extends Component {
                 <div className="top-panel d-flex">
                     <SearchPanel searchTasks={this.onSearch} />
                     <ItemStatusFilter 
-                    applyFilter={this.onFilter} />
+                    filter={filter}
+                    acceptFilter={this.onFilter} />
                 </div>
                 <TodoList 
                 todos={ visibleItems } 
