@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { createRoot } from 'react-dom/client';
 
 import AppHeader from '../AppHeader';
 import SearchPanel from '../SearchPanel';
@@ -8,15 +7,31 @@ import ItemStatusFilter from '../ItemStatusFilter';
 
 import './App.css';
 
-class App extends Component {
-    render() {
-
-        const todoData = [
+export default class App extends Component {
+    state = {
+        todoData: [
             { id: 1, label: "Drink Coffee", important: false, },
             { id: 2, label: "Create awesome React App", important: true, },
             { id: 3, label: "Have a lunch", important: false, }
-        ];
-    
+        ],
+    };
+
+    deleteItem = (id) => {
+        this.setState( (state) => {
+            const indx = state.todoData.findIndex((el) => el.id === id);
+
+            const newTodoArray = [
+                ...state.todoData.slice(0, indx), 
+                ...state.todoData.slice(indx+1)
+            ];
+
+            return {
+                todoData: newTodoArray,
+            }
+        });
+    }
+
+    render() {    
         return (
             <div className='todo-app'>
                 <AppHeader toDo={1} done={3} />
@@ -25,12 +40,10 @@ class App extends Component {
                     <ItemStatusFilter />
                 </div>
                 <TodoList 
-                todos={ todoData } 
-                onDeleted={ (id) => console.log(`${id} deleted`)}
+                todos={ this.state.todoData } 
+                onDeleted={this.deleteItem}
                 />
             </div>
         );
     };
 }
-
-export default App;
