@@ -11,11 +11,21 @@ import './App.css';
 export default class App extends Component {
     state = {
         todoData: [
-            { id: 1, label: "Drink Coffee", important: false, },
-            { id: 2, label: "Create awesome React App", important: true, },
-            { id: 3, label: "Have a lunch", important: false, }
+            this.createTodoItem('Drink Coffee', 1),
+            this.createTodoItem('Create awesome app', 2),
+            this.createTodoItem('Have lunch', 3),
         ],
     };
+
+    createTodoItem(label, id) {
+        const newId = id ? id : new Date().getTime();
+        return { 
+            id: newId, 
+            label, 
+            important: false, 
+            done: false,
+        }
+    }
 
     deleteItem = (id) => {
         this.setState( (state) => {
@@ -33,11 +43,7 @@ export default class App extends Component {
     }
 
     addItem = (props) => {
-        const newTask = { 
-            id: new Date().getTime(), 
-            label: props.label, 
-            important: false, 
-        };
+        const newTask = this.createTodoItem(props.label);
 
         this.setState( (state) => {
             const newTodoArray = [
@@ -51,6 +57,14 @@ export default class App extends Component {
         });
     }
 
+    onToggleImportant = (id) => {
+        console.log(`${id} now important`);
+    }
+
+    onToggleDone = (id) => {
+        console.log(`${id} now done`);
+    }
+
     render() {    
         return (
             <div className='todo-app'>
@@ -62,6 +76,8 @@ export default class App extends Component {
                 <TodoList 
                 todos={ this.state.todoData } 
                 onDeleted={this.deleteItem}
+                onToggleImportant={this.onToggleImportant}
+                onToggleDone={this.onToggleDone}
                 />
                 <ItemAddForm onItemAdded={this.addItem} />
             </div>
