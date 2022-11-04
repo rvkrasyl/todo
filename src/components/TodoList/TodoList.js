@@ -11,7 +11,10 @@ const TodoList = ( props ) => {
 
         return (
             <li className="list-group-item" key={id}>
-                <TodoListItem { ...itemProps } />
+                <TodoListItem 
+                { ...itemProps } 
+                onDeleted={() => props.onDeleted(id)}
+                />
             </li>
         );
     });
