@@ -9,37 +9,25 @@ export default class ItemStatusFilter extends Component {
         event.target.className += " btn-info";
     }
     
-    showDone = (event) => {
+    acceptFilter = (event) => {
         this.changeSelectedBtn(event);
-        this.props.showDone();
-    }
-
-    showActive = (event) => {
-        this.changeSelectedBtn(event);
-        this.props.showActive();
-    }
-
-    showAll = (event) => {
-        this.changeSelectedBtn(event);
-        this.props.showAll();
+        this.props.applyFilter(event);
     }
     
     render() {
         return (
-            <div className="btn-group item-status-filter">
+            <div className="btn-group item-status-filter"
+                 onClick={this.acceptFilter}>
                 <button type="button"
-                        className="btn btn-outline-secondary btn-info"
-                        onClick={this.showAll}>
+                        className="btn btn-outline-secondary btn-info">
                         All
                 </button>
                 <button type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={this.showActive}>
+                        className="btn btn-outline-secondary">
                         Active
                 </button>
                 <button type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={this.showDone}>
+                        className="btn btn-outline-secondary">
                         Done
                 </button>
             </div>

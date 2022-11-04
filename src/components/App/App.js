@@ -16,6 +16,7 @@ export default class App extends Component {
             this.createTodoItem('Have lunch', 3),
         ],
         term: '',
+        filter: 'all' // all active done
     };
 
     createTodoItem(label, id) {
@@ -84,7 +85,7 @@ export default class App extends Component {
         this.toggleProperty(id, 'done');
     }
 
-    filterTasks( items, term ) {
+    searchTasks( items, term ) {
         if(term.length === 0) {
             return items;
         } 
@@ -100,39 +101,27 @@ export default class App extends Component {
         });
     }
 
-    showActive = () => {
-        this.setState( (state) => {
-            const newArr = state.todoData
-                           .filter((el) => !el.done);
-            return {
-                todoData: newArr,
-            }
-        });
+    filterTasks(items, filter) {
+        if (filter === 'active') {
+            return items.filter((el) => !el.done);
+        } else if (filter === 'done') {
+            return items.filter((el) => el.done);
+        }
+        return items;
     }
 
-    showDone = () => {
-        this.setState( (state) => {
-            const newArr = state.todoData
-                           .filter((el) => el.done);
-            return {
-                todoData: newArr,
-            }
-        });
-    }
-
-    showAll = () => {
-        this.setState( (state) => {
-            return {
-                todoData: state.todoData,
-            }
+    onFilter = ( event ) => {
+        this.setState({
+            filter: event.target.innerText.toLowerCase(),
         });
     }
 
     render() { 
-        const { todoData, term } = this.state;
+        const { todoData, term, filter } = this.state;
         const doneCount = todoData.filter((el) => el.done).length;
         const todoCount = todoData.length - doneCount;
-        const visibleItems = this.filterTasks(todoData, term)
+        let visibleItems = this.searchTasks(todoData, term);
+        visibleItems = this.filterTasks(visibleItems, filter);
         
         return (
             <div className='todo-app'>
@@ -140,9 +129,7 @@ export default class App extends Component {
                 <div className="top-panel d-flex">
                     <SearchPanel searchTasks={this.onSearch} />
                     <ItemStatusFilter 
-                    showActive={this.showActive} 
-                    showDone={this.showDone}
-                    showAll={this.showAll} />
+                    applyFilter={this.onFilter} />
                 </div>
                 <TodoList 
                 todos={ visibleItems } 
