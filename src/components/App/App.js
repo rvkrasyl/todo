@@ -42,9 +42,9 @@ export default class App extends Component {
         });
     }
 
-    addItem = (props) => {
-        const newTask = this.createTodoItem(props.label);
-
+    addItem = (label) => {
+        const newTask = this.createTodoItem(label);
+        console.log(newTask);
         this.setState( (state) => {
             const newTodoArray = [
                 ...state.todoData, 
