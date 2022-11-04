@@ -58,17 +58,50 @@ export default class App extends Component {
     }
 
     onToggleImportant = (id) => {
-        console.log(`${id} now important`);
+        this.setState( (state) => {
+            const indx = state.todoData.findIndex((el) => el.id === id);
+
+            const oldItem = state.todoData[indx];
+            const newItem = {...oldItem, important: !oldItem.important };
+
+            const newArray = [
+                ...state.todoData.slice(0, indx),
+                newItem,
+                ...state.todoData.slice(indx+1),
+            ];
+
+            return {
+                todoData: newArray,
+            }
+        });
     }
 
     onToggleDone = (id) => {
-        console.log(`${id} now done`);
+        this.setState( (state) => {
+            const indx = state.todoData.findIndex((el) => el.id === id);
+
+            const oldItem = state.todoData[indx];
+            const newItem = {...oldItem, done: !oldItem.done };
+
+            const newArray = [
+                ...state.todoData.slice(0, indx),
+                newItem,
+                ...state.todoData.slice(indx+1),
+            ];
+
+            return {
+                todoData: newArray,
+            }
+        });
     }
 
-    render() {    
+    render() { 
+        const doneCount = this.state.todoData.filter((el) => el.done).length;
+        const todoCount = this.state.todoData.length - doneCount;
+        
         return (
             <div className='todo-app'>
-                <AppHeader toDo={1} done={3} />
+                <AppHeader toDo={todoCount} done={doneCount} />
                 <div className="top-panel d-flex">
                     <SearchPanel />
                     <ItemStatusFilter />
@@ -82,5 +115,5 @@ export default class App extends Component {
                 <ItemAddForm onItemAdded={this.addItem} />
             </div>
         );
-    };
+    }
 }
