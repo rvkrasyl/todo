@@ -4,6 +4,7 @@ import AppHeader from '../AppHeader';
 import SearchPanel from '../SearchPanel';
 import TodoList from '../TodoList';
 import ItemStatusFilter from '../ItemStatusFilter';
+import ItemAddForm from '../ItemAddForm';
 
 import './App.css';
 
@@ -31,6 +32,25 @@ export default class App extends Component {
         });
     }
 
+    addItem = (props) => {
+        const newTask = { 
+            id: new Date().getTime(), 
+            label: props.label, 
+            important: false, 
+        };
+
+        this.setState( (state) => {
+            const newTodoArray = [
+                ...state.todoData, 
+                newTask
+            ];
+
+            return {
+                todoData: newTodoArray,
+            }
+        });
+    }
+
     render() {    
         return (
             <div className='todo-app'>
@@ -43,6 +63,7 @@ export default class App extends Component {
                 todos={ this.state.todoData } 
                 onDeleted={this.deleteItem}
                 />
+                <ItemAddForm onItemAdded={this.addItem} />
             </div>
         );
     };
