@@ -57,47 +57,37 @@ export default class App extends Component {
         });
     }
 
-    onToggleImportant = (id) => {
+    toggleProperty = (id, propName) => {
         this.setState( (state) => {
             const indx = state.todoData.findIndex((el) => el.id === id);
 
             const oldItem = state.todoData[indx];
-            const newItem = {...oldItem, important: !oldItem.important };
+            const newItem = {...oldItem, [propName]: !oldItem[propName] };
 
-            const newArray = [
+            const newArr = [
                 ...state.todoData.slice(0, indx),
                 newItem,
                 ...state.todoData.slice(indx+1),
             ];
 
             return {
-                todoData: newArray,
+                todoData: newArr,
             }
-        });
+        });   
+    }
+
+    onToggleImportant = (id) => {
+        this.toggleProperty(id, 'important');
     }
 
     onToggleDone = (id) => {
-        this.setState( (state) => {
-            const indx = state.todoData.findIndex((el) => el.id === id);
-
-            const oldItem = state.todoData[indx];
-            const newItem = {...oldItem, done: !oldItem.done };
-
-            const newArray = [
-                ...state.todoData.slice(0, indx),
-                newItem,
-                ...state.todoData.slice(indx+1),
-            ];
-
-            return {
-                todoData: newArray,
-            }
-        });
+        this.toggleProperty(id, 'done');
     }
 
     render() { 
-        const doneCount = this.state.todoData.filter((el) => el.done).length;
-        const todoCount = this.state.todoData.length - doneCount;
+        const { todoData } = this.state;
+        const doneCount = todoData.filter((el) => el.done).length;
+        const todoCount = todoData.length - doneCount;
         
         return (
             <div className='todo-app'>
@@ -107,7 +97,7 @@ export default class App extends Component {
                     <ItemStatusFilter />
                 </div>
                 <TodoList 
-                todos={ this.state.todoData } 
+                todos={ todoData } 
                 onDeleted={this.deleteItem}
                 onToggleImportant={this.onToggleImportant}
                 onToggleDone={this.onToggleDone}
